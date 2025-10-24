@@ -34,3 +34,34 @@ export const createPlayer = async (req, res) => {
     res.status(500).json({ message: "Erro ao Criar o Jogador!" });
   }
 };
+
+export const updatePlayer = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { first_name, last_name, positon, age } = req.body;
+
+    const playerUpdate = await prisma.player.update({
+      where: {
+        user_id: Number(id),
+      },
+      data: {
+        first_name,
+        last_name,
+        positon,
+        age,
+      },
+    });
+
+    if (!playerUpdate) {
+      return res.status(404).json({ message: "Jogador nao encontrado!" });
+    }
+
+    res.status(200).json({
+      message: "Jogador atualizado com sucesso!",
+      playerUpdate,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ message: "Erro ao atualizar o jogador!" });
+  }
+};
