@@ -1,67 +1,44 @@
-import prisma from "../utils/prisma.js";
+import * as playerService from "../services/playerService.js";
 
 export const createPlayer = async (req, res) => {
   try {
-    const { first_name, last_name, positon, age, club_id } = req.body;
-    if (!first_name || !last_name || !positon || !age || !club_id) {
-      return res
-        .status(400)
-        .json({ message: "Dados invalidos ou indefinidos." });
-    }
-
-    const playerExists = await prisma.player.findMany({
-      where: { first_name, last_name },
-    });
-
-    if (playerExists.length > 0) {
-      return res.status(400).json({ message: "Este jogador ja existe." });
-    }
-    const playerCreate = await prisma.player.create({
-      data: {
-        first_name,
-        last_name,
-        positon,
-        age,
-        club_id,
-      },
-    });
-    res.status(200).json({
-      message: "Jogador Criado e Adicionado a um clube com Sucesso!",
-      playerCreate,
-    });
+    const playerCreate = await playerService.createPlayer(req.body); //pega os dados do corpo (req.body)
+    res.status(201).json({ playerCreate });
   } catch (e) {
-    console.log(e);
-    res.status(500).json({ message: "Erro ao Criar o Jogador!" });
+    res.status(500).json({ message: "Erro ao criar o jogador!" });
   }
 };
 
 export const updatePlayer = async (req, res) => {
   try {
     const { id } = req.params;
-    const { first_name, last_name, positon, age } = req.body;
-
-    const playerUpdate = await prisma.player.update({
-      where: {
-        user_id: Number(id),
-      },
-      data: {
-        first_name,
-        last_name,
-        positon,
-        age,
-      },
-    });
-
-    if (!playerUpdate) {
-      return res.status(404).json({ message: "Jogador nao encontrado!" });
-    }
-
-    res.status(200).json({
-      message: "Jogador atualizado com sucesso!",
-      playerUpdate,
-    });
+    const playerUpdate = await playerService.updatePlayer(id, req.body);
+    res.status(201).json({ playerUpdate });
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: "Erro ao atualizar o jogador!" });
+    console.log(e);
+    res.status(500).json({ message: "Erro ao atualizar o Jogador!" });
   }
 };
+
+export const deletePlayer = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const playerDelete = await playerService.deletePlayer(id, req.body);
+    res
+      .status(201)
+      .json({ message: "Jogador deletado com sucesso", playerDelete });
+  } catch (e) {
+    res.status(500).json({ message: "Erro ao deletar o Jogador!" });
+  }
+};
+
+export const getAllPlayers = async (req, res) => {
+  try{ 
+    const getAllPlayers = await playerService.getAllPlayer();
+
+  res.status(201).json({message: "Jogadores Listados com Sucesso!", getAllPlayers})
+  }catch(e){
+    console.log(e)
+    res.status(500).json({message: "Erro ao Listar Jogadores!"})
+  }
+}

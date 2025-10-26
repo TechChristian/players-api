@@ -4,9 +4,9 @@ import {createClube, updateClube, deleteClube, getClubes } from '../controllers/
 const router = express.Router();    
 
 
-router.post("/CreateClub", createClube)
-router.put("/update/:id", updateClube)
-router.delete("/delete/:id", deleteClube)
-router.get("/Clubes", getClubes)
+router.post("/API/clube", createClube)
+router.put("/API/clube/:id", updateClube)
+router.delete("/API/clube/:id", deleteClube)
+router.get("/API/clube", getClubes)
 
 export default router;

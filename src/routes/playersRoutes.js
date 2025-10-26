@@ -1,11 +1,16 @@
-import express from 'express';
-import { createPlayer, updatePlayer } from '../controllers/playersController.js';
+import express from "express";
+import {
+  createPlayer,
+  updatePlayer,
+  deletePlayer,
+  getAllPlayers
+} from "../controllers/playersController.js";
 
-const router = express.Router();    
+const router = express.Router();
 
-router.post("/createPlayer", createPlayer)
-router.put("/updatePlayer/:id", updatePlayer)
-//router.delete("/delete", deletePlayer)
-//router.get("/player", getPlayer)
+router.post("/API/player", createPlayer);
+router.put("/API/player/:id", updatePlayer);
+router.delete("/API/player/:id", deletePlayer);
+router.get("/API/player", getAllPlayers)
 
 export default router;
