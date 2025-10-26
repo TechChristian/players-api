@@ -1,35 +1,17 @@
-import prisma from "../utils/prisma.js";
+import * as clubesService from "../services/clubesService.js";
 
 //Criar Clubes
 export const createClube = async (req, res) => {
-  try {
-    const { club_name, country } = req.body;
-
-    if (!club_name || !country) {
-      return res.status(400).json({ message: "dados invalidos ou indefinidos." });
-    }
-
-    const existingClub = await prisma.club.findUnique({
-      where: { club_name },
-    });
-
-    if (existingClub) {
-      return res.status(400).json({ message: "este clube ja existe." });
-    }
-
-    const NewClub = await prisma.club.create({
-      data: {
-        club_name,
-        country,
-      },
-    });
-
-    res.status(201).json({ NewClub });
-  } catch (err) {
-    res.status(400).json({ messsage: "Erro ao Criar o Clube." });
+  try{
+    const NewClub = await clubesService.createClube(req.body)
+    res.status(201).json({message : "Clube Criado com Sucesso!", NewClub})
+  }catch(e){
+    console.log(e)
+    res.status(400).json({message : "Erro ao Criar o Clube!"})
   }
-};
-
+}
+    
+/*
 export const updateClube = async (req, res) => {
   try {
     const { club_name, country } = req.body;
@@ -75,3 +57,4 @@ export const getClubes = async (req, res) => {
     res.status(500).json({message : "Erro ao Listar Clubes!"})
   }
 }
+  */
