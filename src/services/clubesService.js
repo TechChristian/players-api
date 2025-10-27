@@ -21,3 +21,22 @@ export const createClube = async (data) => {
   });
   return NewClub;
 };
+
+export const updateClube = async (id, data) => {
+  const { club_name, country } = data;
+
+  const clubeUpdate = await prisma.club.update({
+    where: {
+      club_id: Number(id)
+    },
+    data : {
+      club_name,
+      country
+    }
+  })
+  if(!clubeUpdate){
+    res.status(404).json({message : "Clube não encontrado!"})
+  }
+  return clubeUpdate;
+} 
+  

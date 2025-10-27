@@ -10,26 +10,19 @@ export const createClube = async (req, res) => {
     res.status(400).json({message : "Erro ao Criar o Clube!"})
   }
 }
-    
-/*
-export const updateClube = async (req, res) => {
-  try {
-    const { club_name, country } = req.body;
-    const updateClub = await prisma.club.update({
-      where: {
-        club_id: Number(req.params.id),
-      },
-      data: {
-        club_name,
-        country,
-      },
-    });
-    res.status(200).json({ message: "Clube atualizado com sucesso!", updateClub });
-  } catch (err) {
-    res.status(500).json({ message: "Erro ao Atualizar o Clube." });
+
+export const clubeUpdate = async (req, res) => {
+  try{
+    const { id } = req.params;
+    const clubeUpdate = await clubesService.updateClube(id, req.body)
+    res.status(201).json({message: "Clube Atualizado com sucesso", clubeUpdate})
+  }catch(e){
+    console.log(e)
+    res.status(500).json({message : "Erro ao Atualizar o Clube!"})
   }
 };
 
+/*
 export const deleteClube = async (req, res) => {
   try {
     await prisma.club.delete({
