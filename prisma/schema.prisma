@@ -17,7 +17,7 @@ model Player {
   user_id    Int     @id @default(autoincrement())
   first_name String
   last_name  String 
-  positon  String
+  position  String
   age      Int
   club_id  Int
   club     Club    @relation(fields: [club_id], references: [club_id])

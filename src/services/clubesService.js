@@ -27,16 +27,36 @@ export const updateClube = async (id, data) => {
 
   const clubeUpdate = await prisma.club.update({
     where: {
-      club_id: Number(id)
+      club_id: Number(id),
     },
-    data : {
+    data: {
       club_name,
-      country
-    }
-  })
-  if(!clubeUpdate){
-    res.status(404).json({message : "Clube não encontrado!"})
+      country,
+    },
+  });
+  if (!clubeUpdate) {
+    res.status(404).json({ message: "Clube não encontrado!" });
   }
   return clubeUpdate;
-} 
-  
+};
+
+export const deleteClubes = async (id) => {
+  const deleteClube = await prisma.club.delete({
+    where: {
+      club_id: Number(id),
+    },
+  });
+  return deleteClube;
+};
+
+export const getAllClube = async () => {
+  const getAllClubes = await prisma.club.findMany({
+    select: {
+      club_id: true,
+      club_name: true,
+      country: true,
+      players: true,
+    },
+  });
+  return getAllClubes;
+};
