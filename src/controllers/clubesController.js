@@ -38,9 +38,11 @@ export const deleteClube = async (req, res) => {
 
 export const getAllClubes = async (req, res) => {
   try {
-    const getAllClube = await clubesService.getAllClube();
+    const { club_id } = req.query;
+    const getAllClube = await clubesService.getAllClube(club_id);
     res.status(200).json(getAllClube);
   } catch (e) {
+    console.log(e)
     res.status(500).json({ message: "Erro ao Listar os Clubes!" });
   }
 };

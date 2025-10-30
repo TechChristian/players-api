@@ -49,13 +49,15 @@ export const deleteClubes = async (id) => {
   return deleteClube;
 };
 
-export const getAllClube = async () => {
+export const getAllClube = async (club_id) => {
+  const where = club_id ? {club_id: Number(club_id)} : {};
   const getAllClubes = await prisma.club.findMany({
+    where,
     select: {
       club_id: true,
       club_name: true,
       country: true,
-      players: true,
+      players: true
     },
   });
   return getAllClubes;

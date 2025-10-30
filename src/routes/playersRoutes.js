@@ -8,9 +8,9 @@ import {
 
 const router = express.Router();
 
-router.post("/API/player", createPlayer);
-router.put("/API/player/:id", updatePlayer);
-router.delete("/API/player/:id", deletePlayer);
-router.get("/API/player", getAllPlayers)
+router.post("/api/player", createPlayer);
+router.put("/api/player/:id", updatePlayer);
+router.delete("/api/player/:id", deletePlayer);
+router.get("/api/player", getAllPlayers)
 
 export default router;

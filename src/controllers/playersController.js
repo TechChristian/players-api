@@ -5,6 +5,7 @@ export const createPlayer = async (req, res) => {
     const playerCreate = await playerService.createPlayer(req.body); //pega os dados do corpo (req.body)
     res.status(201).json({ playerCreate });
   } catch (e) {
+    console.log(e)
     res.status(500).json({ message: "Erro ao criar o jogador!" });
   }
 };
