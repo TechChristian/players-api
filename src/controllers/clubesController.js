@@ -42,7 +42,6 @@ export const getAllClubes = async (req, res) => {
     const getAllClube = await clubesService.getAllClube(club_id);
     res.status(200).json(getAllClube);
   } catch (e) {
-    console.log(e)
     res.status(500).json({ message: "Erro ao Listar os Clubes!" });
   }
 };
