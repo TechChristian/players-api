@@ -1,6 +1,5 @@
 import * as clubesService from "../services/clubesService.js";
 
-//Criar Clubes
 export const createClube = async (req, res) => {
   try {
     const NewClub = await clubesService.createClube(req.body);
@@ -10,6 +9,7 @@ export const createClube = async (req, res) => {
     res.status(400).json({ message: "Erro ao Criar o Clube!" });
   }
 };
+
 
 export const clubeUpdate = async (req, res) => {
   try {
@@ -24,6 +24,7 @@ export const clubeUpdate = async (req, res) => {
   }
 };
 
+
 export const deleteClube = async (req, res) => {
   try {
     const { id } = req.params;
@@ -35,6 +36,7 @@ export const deleteClube = async (req, res) => {
     res.status(500).json({ message: "Erro ao Deletar Clube!" });
   }
 };
+
 
 export const getAllClubes = async (req, res) => {
   try {

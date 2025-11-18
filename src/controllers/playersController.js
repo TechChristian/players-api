@@ -1,5 +1,6 @@
 import * as playerService from "../services/playerService.js";
 
+
 export const createPlayer = async (req, res) => {
   try {
     const playerCreate = await playerService.createPlayer(req.body); //pega os dados do corpo (req.body)
@@ -9,6 +10,7 @@ export const createPlayer = async (req, res) => {
     res.status(500).json({ message: "Erro ao criar o jogador!" });
   }
 };
+
 
 export const updatePlayer = async (req, res) => {
   try {
@@ -20,6 +22,7 @@ export const updatePlayer = async (req, res) => {
     res.status(500).json({ message: "Erro ao atualizar o Jogador!" });
   }
 };
+
 
 export const deletePlayer = async (req, res) => {
   try {
@@ -33,13 +36,13 @@ export const deletePlayer = async (req, res) => {
   }
 };
 
+
 export const getAllPlayers = async (req, res) => {
   try{ 
     const getAllPlayers = await playerService.getAllPlayer();
 
   res.status(201).json({message: "Jogadores Listados com Sucesso!", getAllPlayers})
   }catch(e){
-    console.log(e)
     res.status(500).json({message: "Erro ao Listar Jogadores!"})
   }
 }

@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  backend:
+    depends_on:
+      - db-mysql
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    command: npm start
+  db-mysql:
+    image: mysql:8.0
+    restart: always
+    container_name: mysql_vidly
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3307:3306"
+    expose:
+      - "3306"
+    volumes:
+      - vidly:/data/mysql
+
+volumes:
+  vidly:
