@@ -21,6 +21,8 @@ model Player {
   age      Int
   club_id  Int
   club     Club    @relation(fields: [club_id], references: [club_id])
+
+  transfers Transfer[]
 }
 
 model Club {
@@ -28,4 +30,22 @@ model Club {
   club_name String @unique
   country   String  
   players   Player[]
+
+  transfersFrom Transfer[] @relation("FromClub")
+  transfersTo Transfer[] @relation("ToClub")
+}
+
+model Transfer { 
+  transfer_id   Int     @id @default(autoincrement())
+  player_id     Int
+  player Player @relation(fields: [player_id], references: [user_id])
+
+  from_club_id  Int
+  fromclub Club @relation("FromClub", fields: [from_club_id], references: [club_id])
+
+  to_club_id    Int
+  toClub Club @relation("ToClub", fields: [to_club_id], references: [club_id])
+
+  transfer_fee  Float
+  transfer_date DateTime @default(now())
 }
