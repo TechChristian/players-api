@@ -37,7 +37,7 @@ export const deletePlayer = async (req, res) => {
 };
 
 
-export const getAllPlayers = async (req, res) => {
+export const getAllPlayers = async (_ , res) => {
   try{ 
     const getAllPlayers = await playerService.getAllPlayer();
 

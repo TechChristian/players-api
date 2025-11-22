@@ -7,13 +7,13 @@ export const createTransfer = async (data) => {
     typeof from_club_id !== "number" ||
     typeof to_club_id !== "number"
   ) {
-    return res.status(400).json({ message: "IDs inválidos ou não enviados! " });
+    throw new Error("IDs inválidos ou não enviados! ");
   }
   const existingPlayer = await prisma.player.findUnique({
     where: { user_id: player_id },
   });
   if (!existingPlayer) {
-    res.status(400).json({ message: "Este Player não existe!" });
+    throw new Error("Este Player não existe!");
   }
   const newTransfer = await prisma.transfer.create({
     data: {
@@ -23,6 +23,7 @@ export const createTransfer = async (data) => {
       transfer_fee,
     },
   });
+
   // Atualiza o jogador para o novo clube
   await prisma.player.update({
     where: { user_id: player_id },
@@ -31,4 +32,15 @@ export const createTransfer = async (data) => {
     },
   });
   return newTransfer;
+};
+
+export const transfers = async () => {
+  const getAllTransfers = await prisma.transfer.findMany({
+    include: {
+      player: true,
+      fromclub: true,
+      toClub: true,
+    },
+  });
+  return getAllTransfers;
 };
