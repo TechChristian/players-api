@@ -4,7 +4,7 @@ export const createClube = async (req, res) => {
   try {
     const NewClub = await clubesService.createClube(req.body);
     res.status(201).json({ message: "Clube Criado com Sucesso!", NewClub });
-  } catch (e) {
+  } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.message });
   }
@@ -15,10 +15,9 @@ export const clubeUpdate = async (req, res) => {
     const { id } = req.params;
     const clubeUpdate = await clubesService.updateClube(id, req.body);
     res
-      .status(201)
+      .status(200)
       .json({ message: "Clube Atualizado com sucesso", clubeUpdate });
-  } catch (e) {
-    console.log(error);
+  } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
@@ -28,7 +27,7 @@ export const deleteClube = async (req, res) => {
     const { id } = req.params;
     const deleteClube = await clubesService.deleteClubes(id);
     res
-      .status(201)
+      .status(200)
       .json({ message: "Clube Deletado com Sucesso!", deleteClube });
   } catch (e) {
     res.status(500).json({ message: "Erro ao Deletar Clube!" });
