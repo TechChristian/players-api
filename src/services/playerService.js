@@ -4,7 +4,7 @@ export const createPlayer = async (data) => {
   const { first_name, last_name, positon, age, club_id } = data;
 
   if (!first_name || !last_name || !positon || !age || !club_id) {
-    return res.status(400).json({ message: "Dados invalidos ou indefinidos." });
+    throw new Error({ message: "Dados invalidos ou indefinidos." });
   }
 
   const playerExists = await prisma.player.findMany({
@@ -12,7 +12,7 @@ export const createPlayer = async (data) => {
   });
 
   if (playerExists.length > 0) {
-    return res.status(400).json({ message: "Este jogador ja existe." });
+    throw new Error({ message: "Este jogador ja existe." });
   }
 
   const playerCreate = await prisma.player.create({
@@ -43,7 +43,7 @@ export const updatePlayer = async (id, data) => {
   });
 
   if (!playerUpdate) {
-    return res.status(404).json({ message: "Jogador nao encontrado!" });
+    throw new Error({ message: "Jogador nao encontrado!" });
   }
 
   return playerUpdate;
@@ -58,18 +58,16 @@ export const deletePlayer = async (id) => {
   return playerDelete;
 };
 
-
 export const getAllPlayer = async () => {
   const getAllPlayers = await prisma.player.findMany({
     select: {
-      first_name : true, 
-      last_name : true, 
-      positon : true,
-      age : true, 
-      club_id : true, 
-      club: true 
-    }
-  })
+      first_name: true,
+      last_name: true,
+      positon: true,
+      age: true,
+      club_id: true,
+      club: true,
+    },
+  });
   return getAllPlayers;
-}
-
+};

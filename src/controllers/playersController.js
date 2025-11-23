@@ -1,16 +1,14 @@
 import * as playerService from "../services/playerService.js";
 
-
 export const createPlayer = async (req, res) => {
   try {
     const playerCreate = await playerService.createPlayer(req.body); //pega os dados do corpo (req.body)
     res.status(201).json({ playerCreate });
   } catch (e) {
-    console.log(e)
-    res.status(500).json({ message: "Erro ao criar o jogador!" });
+    console.log(e);
+    return res.status(500).json({ message: message.error });
   }
 };
-
 
 export const updatePlayer = async (req, res) => {
   try {
@@ -19,10 +17,9 @@ export const updatePlayer = async (req, res) => {
     res.status(201).json({ playerUpdate });
   } catch (e) {
     console.log(e);
-    res.status(500).json({ message: "Erro ao atualizar o Jogador!" });
+    return res.status(500).json({ message: message.error });
   }
 };
-
 
 export const deletePlayer = async (req, res) => {
   try {
@@ -36,13 +33,14 @@ export const deletePlayer = async (req, res) => {
   }
 };
 
-
-export const getAllPlayers = async (_ , res) => {
-  try{ 
+export const getAllPlayers = async (_, res) => {
+  try {
     const getAllPlayers = await playerService.getAllPlayer();
 
-  res.status(201).json({message: "Jogadores Listados com Sucesso!", getAllPlayers})
-  }catch(e){
-    res.status(500).json({message: "Erro ao Listar Jogadores!"})
+    res
+      .status(201)
+      .json({ message: "Jogadores Listados com Sucesso!", getAllPlayers });
+  } catch (e) {
+    res.status(500).json({ message: "Erro ao Listar Jogadores!" });
   }
-}
+};
