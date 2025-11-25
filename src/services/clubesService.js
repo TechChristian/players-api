@@ -1,4 +1,4 @@
-import prisma from "../utils/prisma.js";
+import * as clubesRepository from "../repository/clubesRepository.js";
 
 // Criar Clube
 export const createClube = async (data) => {
@@ -8,55 +8,43 @@ export const createClube = async (data) => {
     throw new Error("Dados inválidos ou indefinidos.");
   }
 
-  const existingClub = await prisma.club.findUnique({
-    where: { club_name },
-  });
+  const existingClub = await clubesRepository.filterByName(club_name);
 
   if (existingClub) {
     throw new Error("Este clube já existe.");
   }
-
-  return await prisma.club.create({
-    data: { club_name, country },
-  });
+  return await clubesRepository.createClub({ club_name, country });
 };
 
 // Atualizar Clube
 export const updateClube = async (id, data) => {
   const { club_name, country } = data;
+  const existingClub = await clubesRepository.filterById(id);
 
-  try {
-    return await prisma.club.update({
-      where: { club_id: Number(id) },
-      data: { club_name, country },
-    });
-  } catch (error) {
-    throw new Error("Clube não encontrado!");
+  if (!existingClub) {
+    throw new Error("Este Clube não Existe.");
   }
+  return await clubesRepository.updateClub(id, { club_name, country });
 };
 
 // Deletar Clube
-export const deleteClubes = async (id) => {
-  try {
-    return await prisma.club.delete({
-      where: { club_id: Number(id) },
-    });
-  } catch (error) {
-    throw new Error("Clube não encontrado!");
+export const deleteClub = async (id) => {
+  const existingClub = await clubesRepository.filterById(id);
+  if (!existingClub) {
+    throw new Error("Clube não Encontrado.");
   }
+  return await clubesRepository.deleteClub(id);
 };
 
 // Listar Clubes
 export const getAllClube = async (club_id) => {
-  const where = club_id ? { club_id: Number(club_id) } : {};
+  if (club_id) {
+    const club = await clubesRepository.findById(club_id);
 
-  return await prisma.club.findMany({
-    where,
-    select: {
-      club_id: true,
-      club_name: true,
-      country: true,
-      players: true,
-    },
-  });
+    if (!club) {
+      throw new Error("Clube não encontrado.");
+    }
+    return club;
+  }
+  return await clubesRepository.getAllClub();
 };

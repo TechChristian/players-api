@@ -25,7 +25,7 @@ export const clubeUpdate = async (req, res) => {
 export const deleteClube = async (req, res) => {
   try {
     const { id } = req.params;
-    const deleteClube = await clubesService.deleteClubes(id);
+    const deleteClube = await clubesService.deleteClub(id);
     res
       .status(200)
       .json({ message: "Clube Deletado com Sucesso!", deleteClube });
