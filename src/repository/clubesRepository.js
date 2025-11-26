@@ -2,7 +2,7 @@ import prisma from "../utils/prisma.js";
 
 export const createClub = async (data) => {
   return await prisma.club.create({
-    data
+    data,
   });
 };
 

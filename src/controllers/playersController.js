@@ -27,14 +27,13 @@ export const deletePlayer = async (req, res) => {
       .status(200)
       .json({ message: "Jogador deletado com sucesso", playerDelete });
   } catch (error) {
-    res.status(500).json({ message: "Erro ao deletar o Jogador!" });
+    res.status(500).json({ message: error.message });
   }
 };
 
 export const getAllPlayers = async (_, res) => {
   try {
     const getAllPlayers = await playerService.getAllPlayer();
-
     res
       .status(200)
       .json({ message: "Jogadores Listados com Sucesso!", getAllPlayers });

@@ -1,4 +1,4 @@
-import prisma from "../utils/prisma.js";
+import * as playersRepository from "../repository/playersRepository.js";
 
 // Criar Player
 export const createPlayer = async (data) => {
@@ -8,54 +8,50 @@ export const createPlayer = async (data) => {
     throw new Error("Dados inválidos ou indefinidos.");
   }
 
-  const playerExists = await prisma.player.findMany({
-    where: { first_name, last_name },
-  });
+  const playerExists = await playersRepository.findByPlayer(
+    first_name,
+    last_name,
+    positon,
+    age
+  );
 
   if (playerExists.length > 0) {
     throw new Error("Este jogador já existe.");
   }
-
-  return await prisma.player.create({
-    data: { first_name, last_name, positon, age, club_id },
-  });
+  return await playersRepository.createPlayer(data);
 };
 
 // Atualizar Player
 export const updatePlayer = async (id, data) => {
   const { first_name, last_name, positon, age } = data;
+  const existingPlayer = await playersRepository.findById(id);
 
-  try {
-    return await prisma.player.update({
-      where: { user_id: Number(id) },
-      data: { first_name, last_name, positon, age },
-    });
-  } catch (error) {
-    throw new Error("Jogador não encontrado!");
+  if (!existingPlayer) {
+    throw new Error("Este Player não existe.");
   }
+
+  return await playersRepository.updatePlayer(id, data);
 };
 
 // Deletar Player
 export const deletePlayer = async (id) => {
-  try {
-    return await prisma.player.delete({
-      where: { user_id: Number(id) },
-    });
-  } catch (error) {
-    throw new Error("Jogador não encontrado!");
+  const existingPlayer = await playersRepository.findById(id);
+
+  if (!existingPlayer) {
+    throw new Error("Este Player não existe.");
   }
+  return playersRepository.deletePlayer(id);
 };
 
 // Listar Players
-export const getAllPlayer = async () => {
-  return await prisma.player.findMany({
-    select: {
-      first_name: true,
-      last_name: true,
-      positon: true,
-      age: true,
-      club_id: true,
-      club: true,
-    },
-  });
+export const getAllPlayer = async (user_id) => {
+  if (user_id) {
+    const player = await playersRepository.findPlayerId(user_id);
+
+    if (!player) {
+      throw new Error("Erro ao listar Jogadores.");
+    }
+    return player;
+  }
+  return playersRepository.getAllPlayers();
 };
