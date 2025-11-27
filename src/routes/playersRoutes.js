@@ -3,7 +3,7 @@ import {
   createPlayer,
   updatePlayer,
   deletePlayer,
-  getAllPlayers
+  getAllPlayers,
 } from "../controllers/playersController.js";
 
 const router = express.Router();
@@ -11,6 +11,6 @@ const router = express.Router();
 router.post("/api/player", createPlayer);
 router.put("/api/player/:id", updatePlayer);
 router.delete("/api/player/:id", deletePlayer);
-router.get("/api/player", getAllPlayers)
+router.get("/api/player", getAllPlayers);
 
 export default router;

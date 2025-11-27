@@ -20,12 +20,5 @@ export const createTransfer = async (data) => {
 };
 
 export const transfers = async () => {
-  const getAllTransfers = await prisma.transfer.findMany({
-    include: {
-      player: true,
-      fromclub: true,
-      toClub: true,
-    },
-  });
-  return getAllTransfers;
-};
+  return await transfersRepository.getAllTransfers()
+}

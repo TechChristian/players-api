@@ -10,7 +10,7 @@ export const createTransfer = async (data) => {
       transfer_fee,
     },
   });
-
+  //Atualiza o Player após a transferencia for Feita
   await prisma.player.update({
     where: { user_id: player_id },
     data: {
@@ -19,9 +19,19 @@ export const createTransfer = async (data) => {
   });
   return newTransfer;
 };
-
+//buscar Player no Banco
 export const findById = async (id) => {
   return await prisma.player.findUnique({
     where: { user_id: Number(id) },
+  });
+};
+
+export const getAllTransfers = async () => {
+  return await prisma.transfer.findMany({
+    include: {
+      player: true,
+      fromclub: true,
+      toClub: true,
+    },
   });
 };
