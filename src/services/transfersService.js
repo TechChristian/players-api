@@ -1,4 +1,5 @@
 import prisma from "../utils/prisma.js";
+import * as transfersRepository from "../repository/transfersRepository.js";
 
 export const createTransfer = async (data) => {
   const { player_id, from_club_id, to_club_id, transfer_fee } = data;
@@ -9,29 +10,13 @@ export const createTransfer = async (data) => {
   ) {
     throw new Error("IDs inválidos ou não enviados! ");
   }
-  const existingPlayer = await prisma.player.findUnique({
-    where: { user_id: player_id },
-  });
+  const existingPlayer = await transfersRepository.findById(player_id);
+
   if (!existingPlayer) {
     throw new Error("Este Player não existe!");
   }
-  const newTransfer = await prisma.transfer.create({
-    data: {
-      player_id,
-      from_club_id,
-      to_club_id,
-      transfer_fee,
-    },
-  });
 
-  // Atualiza o jogador para o novo clube
-  await prisma.player.update({
-    where: { user_id: player_id },
-    data: {
-      club_id: to_club_id,
-    },
-  });
-  return newTransfer;
+  return await transfersRepository.createTransfer(data);
 };
 
 export const transfers = async () => {
