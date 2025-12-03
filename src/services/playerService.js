@@ -27,7 +27,7 @@ export const updatePlayer = async (id, data) => {
   const existingPlayer = await playersRepository.findById(id);
 
   if (!existingPlayer) {
-    throw new Error("Este Player não existe.");
+    throw new Error("Este Jogador não existe.");
   }
 
   return await playersRepository.updatePlayer(id, data);
@@ -38,7 +38,7 @@ export const deletePlayer = async (id) => {
   const existingPlayer = await playersRepository.findById(id);
 
   if (!existingPlayer) {
-    throw new Error("Este Player não existe.");
+    throw new Error("Este Jogador não existe.");
   }
   return playersRepository.deletePlayer(id);
 };

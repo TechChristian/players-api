@@ -13,7 +13,7 @@ export const createClube = async (data) => {
   if (existingClub) {
     throw new Error("Este clube já existe.");
   }
-  return await clubesRepository.createClub({ data });
+  return await clubesRepository.createClub(data);
 };
 
 // Atualizar Clube

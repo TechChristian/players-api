@@ -26,6 +26,7 @@ services:
       - "3306"
     volumes:
       - vidly:/data/mysql
+      - ./swagger:/app/swagger
 
 volumes:
   vidly:

@@ -20,5 +20,5 @@ export const createTransfer = async (data) => {
 };
 
 export const transfers = async () => {
-  return await transfersRepository.getAllTransfers()
-}
+  return await transfersRepository.getAllTransfers();
+};

@@ -5,7 +5,7 @@ export const createPlayer = async (req, res) => {
     const playerCreate = await playerService.createPlayer(req.body); //pega os dados do corpo (req.body)
     res.status(201).json({ playerCreate });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
